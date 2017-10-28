@@ -3,8 +3,23 @@
     <head>
         <title></title>
         <link type='text/css' href='style.css'/>
+        <style>
+        #map {
+            height: 90%;
+            width: 65%;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        </style>
     </head>
     <body>
-        Hello World!
+        <div id="map"></div>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+        <script src='client.js'></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQSUtyuJ1sGK2QJbpNsDLpsVvUanE8Ic0&libraries=visualization&callback=initMap" async defer></script>
     </body>
 </html>

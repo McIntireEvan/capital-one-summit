@@ -9,7 +9,7 @@ function getLocations() {
         var locs = [];
         fs.createReadStream('data/listings.csv').pipe(csv())
         .on('data', function(data) {
-            locs.push({'latitude': data.latitude, 'longitude': data.longitude});
+            locs.push({'lat': data.latitude, 'lng': data.longitude});
         }).on('end', function() {
             resolve(locs);
         });

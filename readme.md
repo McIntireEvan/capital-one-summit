@@ -47,8 +47,16 @@ server {
 This tells nginx to first try to find the files, and to fall back on our express
 server if it can't locate it.
 
+You'll also have to grab a Google Maps API key from
+[here](https://developers.google.com/maps/).
+
+Once you have it, just go to the `<script>` tag near the bottom of `index.html`,
+find the `?key=` parameter in the URL, and replace mine with yours
+
 After this, you're done! Go to your webpage, and enjoy!
 
 ## Project Structure
 
 ## Libraries
+
+## Other considerations
