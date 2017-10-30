@@ -7,7 +7,7 @@ First, clone from `<URL>`.
 
 Next, grab the data from [here](https://s3.amazonaws.com/mindsumo/public/capital-one/airbnb-public-sep-2017-v2.zip)
 
-Extract all the data, and put `listings.csv`, `calendar.csv`, `neighbourhoods.csv`, and `reviews.csv` in `/server/data`
+Extract all the data, and put `listings.csv` in `/server/data`
 
 Then, from the root directory of the project, run
 ```

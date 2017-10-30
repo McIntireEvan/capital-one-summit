@@ -1,11 +1,21 @@
-var map;
-var heat;
+var map, heat, marker;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.775, lng: -122.434},
-        zoom: 12
+        zoom: 12,
+        gestureHandling: 'cooperative'
     });
+
+    map.addListener('click', evt => {
+        if(marker) {
+            marker.setMap(null);
+        }
+        marker = new google.maps.Marker({
+            position: evt.latLng,
+            map: map
+        });
+    })
 }
 
 function jsonToLatLng(arr) {
@@ -20,12 +30,14 @@ function jsonToLatLng(arr) {
 }
 
 $(document).ready(() => {
-    $.getJSON('api').done(function(data) {
-        console.log(data);
-        console.log(jsonToLatLng(data));
+    $.getJSON('api/locations').done(function(data) {
         heatmap = new google.maps.visualization.HeatmapLayer({
             data: jsonToLatLng(data),
             map: map,
         });
+    });
+
+    $.getJSON('api/stats').done(function(data) {
+        console.log(data);
     })
 });
