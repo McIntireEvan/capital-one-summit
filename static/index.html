@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang='en'>
     <head>
-        <title></title>
+        <title>Airbnb</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
         <link type='text/css' rel='stylesheet' href='style.css'/>
     </head>
     <body>
-        <div class="container">
-            <div id="map"></div>
-            <div id="info-pane"></div>
+        <div class="container flex centered">
+            <h1 class='huge'>Airbnb data visualization</h1>
+        </div>
+
+        <canvas id="prop_types" width="400px" height="400px"></canvas>
+
+        <div class="container flex centered">
+            <div id="map-holder" class='shadow flex centered'>
+                <div id="map"></div>
+                <div id="info-pane"></div>
+            </div>
         </div>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js'></script>
         <script src='client.js'></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQSUtyuJ1sGK2QJbpNsDLpsVvUanE8Ic0&libraries=visualization&callback=initMap" async defer></script>
     </body>

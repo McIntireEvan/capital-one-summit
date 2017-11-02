@@ -1,32 +1,62 @@
+/* General Styles */
 html {
-    background: #04befe;
-}
-
-#map {
-    height: 90%;
-    width: 65%;
-}
-
-#info-pane {
-    width: 20%;
-    background: white;
-    height: 90%;
-}
-
-.container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.shadow {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    font-family: 'Open Sans', sans-serif;
 }
 
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background: #191919;
+    color: #ffffff
+}
+
+.shadow {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Utility classes */
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.centered {
+    align-items: center;
+    justify-content: center;
+}
+
+.huge {
+    font-size: 6em;
+}
+
+/* Element Sizing */
+#map {
+    height: 100%;
+    width: 75%;
+}
+
+#info-pane {
+    width: 25%;
+    background: white;
+    height: 100%;
+}
+
+#map-holder {
+    width: 85%;
+    height: 80%;
+    background: white
+}
+
+#prop_types {
+    max-width: 30vh;
+    max-height: 30vh;
 }

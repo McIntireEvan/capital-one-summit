@@ -38,6 +38,34 @@ $(document).ready(() => {
     });
 
     $.getJSON('api/stats').done(function(data) {
-        console.log(data);
-    })
+        var ctx = "prop_types";
+        var dataset = [];
+        var labels = [];
+
+        var countData = data['count']
+        var otherVal = 0;
+        for(var i = 0; i < countData.length; i++) {
+            if(i < 2) {
+                dataset.push(countData[i].val);
+                labels.push(countData[i].key);
+            } else {
+                otherVal += countData[i].val;
+            }
+        }
+        dataset.push(otherVal);
+        labels.push("Other");
+
+        var propertyTypeChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                datasets: [{'data': dataset, backgroundColor: [
+                    '#F28181','#E99ACA','#A4C4F8'
+                ]}],
+                labels: labels,
+            },
+            options: {
+
+            }
+        });
+    });
 });

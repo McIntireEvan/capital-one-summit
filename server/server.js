@@ -5,7 +5,7 @@ const fs = require('fs');
 
 var locs = [];
 var stats = {
-    'count': {},
+    'count': [],
     'cost': {}
 };
 
@@ -20,13 +20,14 @@ function getLocations() {
 }
 
 function getStats() {
+    var count = {};
     fs.createReadStream('data/listings.csv').pipe(csv())
     .on('data', function(data) {
         /** Count property types */
-        if(stats['count'][data.property_type]) {
-            stats['count'][data.property_type]++;
+        if(count[data.property_type]) {
+            count[data.property_type]++;
         } else {
-            stats['count'][data.property_type] = 1;
+            count[data.property_type] = 1;
         }
 
         /** Average cost per property type per neighborhood */
@@ -46,6 +47,19 @@ function getStats() {
             stats['cost'][data.neighbourhood_cleansed] = {};
         }
     }).on('end', () => {
+        var sorted = [];
+        for(var key in count) {
+            if(count.hasOwnProperty(key)) {
+                sorted.push({'key': key, 'val': count[key]});
+            }
+        }
+        sorted.sort(function(a, b) {
+            return b.val - a.val;
+        });
+        stats.count = sorted;
+        for(var i = 0; i < sorted.length; i++) {
+            console.log("key: " + sorted[i].key +" val: " + sorted[i].val);
+        }
         console.log("Finished loading averages");
     });
 }

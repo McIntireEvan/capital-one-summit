@@ -1,4 +1,4 @@
-# AirBnB Data Visualization
+# Airbnb Data Visualization
 
 This is my application to the Capital One Software Engineering Summit.
 
@@ -58,5 +58,10 @@ After this, you're done! Go to your webpage, and enjoy!
 ## Project Structure
 
 ## Libraries
+
+* Express
+* csv-parse
+* chart.js
+* google maps
 
 ## Other considerations
