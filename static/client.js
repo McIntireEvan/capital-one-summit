@@ -38,9 +38,8 @@ $(document).ready(() => {
     });
 
     $.getJSON('api/stats').done(function(data) {
-        var ctx = "prop_types";
-        var dataset = [];
-        var labels = [];
+        var dataset = [], dataset2 = [];
+        var labels = [], labels2 = [];
 
         var countData = data['count']
         var otherVal = 0;
@@ -55,7 +54,36 @@ $(document).ready(() => {
         dataset.push(otherVal);
         labels.push("Other");
 
-        var propertyTypeChart = new Chart(ctx, {
+        for(var i = 0; i < countData.length; i++) {
+            if(i > 2) {
+                dataset2.push(countData[i].val);
+                labels2.push(countData[i].key);
+            }
+        }
+
+        var barChartOps = {
+            legend: {
+                display: false
+            }, scales: {
+                xAxes: [{
+                    gridLines:{
+                        display: false
+                    },
+                    ticks: {
+                        fontColor: "#ffffff"
+                    }
+                }], yAxes: [{
+                    gridLines:{
+                        display: false
+                    },
+                    ticks: {
+                        fontColor: "#ffffff"
+                    }
+                }]
+            }
+        }
+
+        var propertyTypeChart = new Chart("prop_types", {
             type: 'horizontalBar',
             data: {
                 datasets: [{'data': dataset, backgroundColor: [
@@ -63,9 +91,19 @@ $(document).ready(() => {
                 ]}],
                 labels: labels,
             },
-            options: {
+            options: barChartOpts
+        });
 
-            }
+
+        var propertyTypeChart2 = new Chart("prop_types2", {
+            type: 'horizontalBar',
+            data: {
+                datasets: [{'data': dataset2, backgroundColor: [
+                    '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74', '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74', '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74', '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74'
+                ]}],
+                labels: labels2,
+            },
+            options: barChartOpts
         });
     });
 });

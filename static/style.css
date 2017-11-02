@@ -56,7 +56,7 @@ h1 {
     background: white
 }
 
-#prop_types {
-    max-width: 30vh;
-    max-height: 30vh;
+#prop_types, #prop_types2 {
+    max-width: 40vh;
+    max-height: 40vh;
 }
