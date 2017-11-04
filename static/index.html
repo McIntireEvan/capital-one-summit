@@ -7,8 +7,29 @@
         <link type='text/css' rel='stylesheet' href='style.css'/>
     </head>
     <body>
-        <div class="container flex centered">
-            <h1 class='huge'>Airbnb data visualization</h1>
+        <div id="landing" class="container flex centered">
+            <h1 class='huge'><span class='airbnb-red'>Airbnb</span> data visualization</h1>
+            <div id='landing-two' class='two'>
+                <div>
+                    <h1>About</h1>
+                    <p>
+                        This page contains some data visualizations and comments about Airbnb data from San Francisco.
+                        This was created for the Capital One Software Engineering Summit application.
+                        The code in located <a href='#'>here</a> under the MIT License, along with technical details about
+                        libraries and setting up your own copy of this. If you have any inquiries or suggestions,
+                        feel free to reach out to me over Github. Enjoy!
+                    </p>
+                </div>
+                <div>
+                    <h1>Jump to data</h1>
+                    <ol>
+                        <li><a href='#'>Property Types</a></li>
+                        <li><a href='#'>Average cost per neighborhood</a></li>
+                        <li><a href='#'>Ratings by neighborhood</a></li>
+                        <li><a href='#'>Heatmap and price calculator</a></li>
+                    </ol>
+                </div>
+            </div>
         </div>
 
         <canvas id="prop_types" width="400px" height="400px"></canvas>

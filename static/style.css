@@ -7,8 +7,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    color: #ffffff;
     background: #191919;
-    color: #ffffff
 }
 
 .shadow {
@@ -16,7 +16,11 @@ html, body {
 }
 
 h1 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+}
+
+a:link, a:visited {
+    color: #faef63;
 }
 
 /* Utility classes */
@@ -38,7 +42,33 @@ h1 {
     font-size: 6em;
 }
 
+.airbnb-red {
+    color: #FF5A5F;
+}
+
+.two {
+    display: flex;
+    width: 75%;
+    justify-content: center;
+    font-size: 1.5em;
+}
+
+.two div {
+    padding: 1.5vw;
+    line-height: 1.5;
+}
+
 /* Element Sizing */
+#landing {
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+#landing h1 {
+    margin-top: 10vh;
+}
+
 #map {
     height: 100%;
     width: 75%;
@@ -59,4 +89,8 @@ h1 {
 #prop_types, #prop_types2 {
     max-width: 40vh;
     max-height: 40vh;
+}
+
+#landing-two div {
+    min-width: 30%;
 }
