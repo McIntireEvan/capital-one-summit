@@ -1,4 +1,37 @@
 var map, heat, marker;
+var colors = ['#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74'];
+
+var barChartOpts = {
+    legend: {
+        display: false
+    }, scales: {
+        xAxes: [{
+            gridLines:{
+                display: false
+            },
+            ticks: {
+                fontColor: "#ffffff"
+            },
+            scaleLabel: {
+                display: true,
+                labelString: '# of properties',
+                fontColor: "#ffffff"
+            }
+        }], yAxes: [{
+            gridLines:{
+                display: false
+            },
+            ticks: {
+                fontColor: "#ffffff"
+            },
+            scaleLabel: {
+                display: true,
+                labelString: 'Property Type',
+                fontColor: "#ffffff"
+            }
+        }]
+    }
+}
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -18,6 +51,10 @@ function initMap() {
     })
 }
 
+/**
+ * Converts an array of JSON LatLng values to the google maps format
+ * @param {Object[]]} arr
+ */
 function jsonToLatLng(arr) {
     var ret = new google.maps.MVCArray();
     for(var i = 0; i < arr.length; i++) {
@@ -61,47 +98,22 @@ $(document).ready(() => {
             }
         }
 
-        var barChartOps = {
-            legend: {
-                display: false
-            }, scales: {
-                xAxes: [{
-                    gridLines:{
-                        display: false
-                    },
-                    ticks: {
-                        fontColor: "#ffffff"
-                    }
-                }], yAxes: [{
-                    gridLines:{
-                        display: false
-                    },
-                    ticks: {
-                        fontColor: "#ffffff"
-                    }
-                }]
-            }
-        }
-
         var propertyTypeChart = new Chart("prop_types", {
             type: 'horizontalBar',
             data: {
-                datasets: [{'data': dataset, backgroundColor: [
-                    '#F28181','#E99ACA','#A4C4F8'
-                ]}],
-                labels: labels,
+                datasets: [{'data': dataset, backgroundColor:
+                    [colors[0], colors[2], colors[4]]
+                }],
+                labels: labels
             },
             options: barChartOpts
         });
 
-
         var propertyTypeChart2 = new Chart("prop_types2", {
             type: 'horizontalBar',
             data: {
-                datasets: [{'data': dataset2, backgroundColor: [
-                    '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74', '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74', '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74', '#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74'
-                ]}],
-                labels: labels2,
+                datasets: [{'data': dataset2, backgroundColor: colors[4]}],
+                labels: labels2
             },
             options: barChartOpts
         });

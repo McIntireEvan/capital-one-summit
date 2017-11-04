@@ -30,22 +30,18 @@ function getStats() {
             count[data.property_type] = 1;
         }
 
-        /** Average cost per property type per neighborhood */
+        var price = parseFloat((data.price).replace('$', ''));
+
+        /** Average cost per neighborhood */
         if(stats['cost'][data.neighbourhood_cleansed]) {
-            var st = stats['cost'][data.neighbourhood_cleansed];
-            var price = parseFloat((data.price).replace('$', ''));
-            if(st[data.property_type]) {
-                st[data.property_type].count++;
-                st[data.property_type].price += price;
-            } else {
-                st[data.property_type] = {
-                    'count': 1,
-                    'price': price
-                }
-            }
+            stats['cost'][data.neighbourhood_cleansed].count++;
+            stats['cost'][data.neighbourhood_cleansed].price += price;
         } else {
-            stats['cost'][data.neighbourhood_cleansed] = {};
+            stats['cost'][data.neighbourhood_cleansed].count = 1;
+            stats['cost'][data.neighbourhood_cleansed].price = price;
         }
+
+        /** Ratings per neighborhood */
     }).on('end', () => {
         var sorted = [];
         for(var key in count) {
