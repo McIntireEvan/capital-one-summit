@@ -37,8 +37,10 @@ function getStats() {
             stats['cost'][data.neighbourhood_cleansed].count++;
             stats['cost'][data.neighbourhood_cleansed].price += price;
         } else {
-            stats['cost'][data.neighbourhood_cleansed].count = 1;
-            stats['cost'][data.neighbourhood_cleansed].price = price;
+            stats['cost'][data.neighbourhood_cleansed] = {
+                'count': 1,
+                'price': price
+            }
         }
 
         /** Ratings per neighborhood */
