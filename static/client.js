@@ -1,8 +1,16 @@
-var map, heat, marker;
+"use strict";
+
+/** Variables for Google Maps API */
+var map, heatmap, marker;
+
+/** Colors to use for data  */
 var colors = ['#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74'];
+
+/** Toggles #prop_types chart */
 var mainChartVisible = true;
 
-var barChartOpts = {
+/** Generic options for property type charts */
+var propChartOpts = {
     legend: {
         display: false
     }, scales: {
@@ -34,6 +42,7 @@ var barChartOpts = {
     }
 }
 
+/** Initializes the Google Maps API map */
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.775, lng: -122.434},
@@ -49,12 +58,13 @@ function initMap() {
             position: evt.latLng,
             map: map
         });
+        //TODO: Call to server to calculate price, etc.
     })
 }
 
 /**
  * Converts an array of JSON LatLng values to the google maps format
- * @param {Object[]]} arr
+ * @param {Object[]]} arr - Array of {"lat":"<num>", "lng":"<num>"} values
  */
 function jsonToLatLng(arr) {
     var ret = new google.maps.MVCArray();
@@ -67,7 +77,9 @@ function jsonToLatLng(arr) {
     return ret;
 }
 
+/** Once the page is loaded, do all of our JS */
 $(document).ready(() => {
+    /** Get location data for heatmap; load into google maps */
     $.getJSON('api/locations').done(function(data) {
         heatmap = new google.maps.visualization.HeatmapLayer({
             data: jsonToLatLng(data),
@@ -75,30 +87,41 @@ $(document).ready(() => {
         });
     });
 
-    $.getJSON('api/stats').done(function(data) {
+    /** Get property type counts; display charts  */
+    $.getJSON('api/properties').done(function(data) {
         var dataset = [], dataset2 = [];
         var labels = [], labels2 = [];
 
-        var countData = data['count']
+        /** Holds the count that will go into "other" */
         var otherVal = 0;
-        for(var i = 0; i < countData.length; i++) {
+
+        /**
+         * Processes the data for the first chart; the highest 2 values
+         * are listed, and the rest is put in "other"
+         *
+         * TODO: Make this generalize to other data sets; i.e. pick a number
+         * of things to put in "other" based on count
+         */
+        for(var i = 0; i < data['count'].length; i++) {
             if(i < 2) {
-                dataset.push(countData[i].val);
-                labels.push(countData[i].key);
+                dataset.push(data['count'][i].val);
+                labels.push(data['count'][i].key);
             } else {
-                otherVal += countData[i].val;
+                otherVal += data['count'][i].val;
             }
         }
+
+        /** Add "other" to the data and labels for the chart */
         dataset.push(otherVal);
         labels.push("Other");
 
-        for(var i = 0; i < countData.length; i++) {
-            if(i > 2) {
-                dataset2.push(countData[i].val);
-                labels2.push(countData[i].key);
-            }
+        /** Load the rest of the data to go into the second chart */
+        for(var i = 2; i < data['count'].length; i++) {
+            dataset2.push(data['count'][i].val);
+            labels2.push(data['count'][i].key);
         }
 
+        /** Init the main chart */
         var propertyTypeChart = new Chart("prop_types", {
             type: 'horizontalBar',
             data: {
@@ -107,7 +130,7 @@ $(document).ready(() => {
                 }],
                 labels: labels
             },
-            options: $.extend({}, barChartOpts, {
+            options: $.extend({}, propChartOpts, {
                 "title": {
                     display: true,
                     text: 'Top property types',
@@ -116,13 +139,14 @@ $(document).ready(() => {
             })
         });
 
+        /** Init the second chart */
         var propertyTypeChart2 = new Chart("prop_types2", {
             type: 'horizontalBar',
             data: {
                 datasets: [{'data': dataset2, backgroundColor: colors[4]}],
                 labels: labels2
             },
-            options: $.extend({}, barChartOpts, {
+            options: $.extend({}, propChartOpts, {
                 "title": {
                     display: true,
                     text: 'Other property types',
@@ -130,12 +154,17 @@ $(document).ready(() => {
                 }
             })
         });
+
+        /**
+         * Hide the second chart
+         * This is done with JS instead of CSS because otherwise, chart.js
+         * does not properly initialize the element if 'display' is 'none'
+         */
         $("#prop_types2").css('display', 'none');
     });
-});
 
-$(document).ready(function() {
-    $('.switch').on('click', function(evt) {
+    /** Event listener for text to switch the charts */
+    $('#prop-switch').on('click', function(evt) {
         if(mainChartVisible) {
             $("#prop_types").css('display', 'none');
             $("#prop_types2").css('display', 'block');
@@ -144,6 +173,5 @@ $(document).ready(function() {
             $("#prop_types2").css('display', 'none');
         }
         mainChartVisible = !mainChartVisible;
-        console.log("afagasg");
     });
-})
+});

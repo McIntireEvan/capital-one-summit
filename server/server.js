@@ -66,7 +66,7 @@ app.get('/api/locations', function (req, res) {
     res.send(locs);
 });
 
-app.get('/api/stats', function (req, res) {
+app.get('/api/properties', function (req, res) {
     res.send(stats);
 });
 
