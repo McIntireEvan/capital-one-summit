@@ -23,7 +23,7 @@
                 <div>
                     <h1>Jump to data</h1>
                     <ol>
-                        <li><a href='#'>Property Types</a></li>
+                        <li><a href='#props'>Property Types</a></li>
                         <li><a href='#'>Average cost per neighborhood</a></li>
                         <li><a href='#'>Ratings by neighborhood</a></li>
                         <li><a href='#'>Heatmap and price calculator</a></li>
@@ -31,10 +31,32 @@
                 </div>
             </div>
         </div>
-
-        <canvas id="prop_types" width="400px" height="400px"></canvas>
-        <canvas id="prop_types2" width="400px" height="400px"></canvas>
-
+        <div id='props' class='container flex centered'>
+            <div class="flex section">
+                <h1>Property Types</h1>
+                <div class='flex'>
+                    <canvas id="prop_types" width="600px" height="600px"></canvas>
+                    <canvas id="prop_types2" width="600px" height="600px"></canvas>
+                    <div>
+                        <p>
+                            First, here's a look at the types of properties listed on
+                            Airbnb in San Francisco. As is clear on the graph to the left,
+                            Apartments are listed about twice as often as houses,
+                            which are in turn listed about twice as often as every other
+                            type put together.
+                        </p>
+                        <p>
+                            To look at the graph of everything listed under "other",
+                            click <span class='switch'>here</span> to swap between the graphs.
+                            Most of the listings here are fairly normal, but some like
+                            'Lighthouse', 'Treehouse', 'Castle', etc. stand out -
+                            but when looking at the actual listings, it doesn't seem like
+                            any of them are literal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container flex centered">
             <div id="map-holder" class='shadow flex centered'>
                 <div id="map"></div>

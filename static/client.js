@@ -1,5 +1,6 @@
 var map, heat, marker;
 var colors = ['#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74'];
+var mainChartVisible = true;
 
 var barChartOpts = {
     legend: {
@@ -106,7 +107,13 @@ $(document).ready(() => {
                 }],
                 labels: labels
             },
-            options: barChartOpts
+            options: $.extend({}, barChartOpts, {
+                "title": {
+                    display: true,
+                    text: 'Top property types',
+                    fontColor: '#ffffff'
+                }
+            })
         });
 
         var propertyTypeChart2 = new Chart("prop_types2", {
@@ -115,7 +122,28 @@ $(document).ready(() => {
                 datasets: [{'data': dataset2, backgroundColor: colors[4]}],
                 labels: labels2
             },
-            options: barChartOpts
+            options: $.extend({}, barChartOpts, {
+                "title": {
+                    display: true,
+                    text: 'Other property types',
+                    fontColor: '#ffffff'
+                }
+            })
         });
+        $("#prop_types2").css('display', 'none');
     });
 });
+
+$(document).ready(function() {
+    $('.switch').on('click', function(evt) {
+        if(mainChartVisible) {
+            $("#prop_types").css('display', 'none');
+            $("#prop_types2").css('display', 'block');
+        } else {
+            $("#prop_types").css('display', 'block');
+            $("#prop_types2").css('display', 'none');
+        }
+        mainChartVisible = !mainChartVisible;
+        console.log("afagasg");
+    });
+})
