@@ -19,6 +19,24 @@ function getLocations() {
     });
 }
 
+/**
+ * Sorts JSON objects by value, but changes the format from
+ * `obj[key] = val` to `{key: key, val: val}`
+ */
+function sortByValue(obj, cmp) {
+    var sorted = [];
+
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key)) {
+            sorted.push({'key': key, 'val': obj[key]});
+        }
+    }
+
+    sorted.sort(cmp);
+
+    return sorted;
+}
+
 function getStats() {
     var count = {};
     fs.createReadStream('data/listings.csv').pipe(csv())
@@ -44,32 +62,37 @@ function getStats() {
         }
 
         /** Ratings per neighborhood */
+        //number_of_reviews
+        //review_scores_rating
     }).on('end', () => {
-        var sorted = [];
-        for(var key in count) {
-            if(count.hasOwnProperty(key)) {
-                sorted.push({'key': key, 'val': count[key]});
-            }
-        }
-        sorted.sort(function(a, b) {
+        /** Sort property counts */
+        stats.count = sortByValue(count, function(a, b) {
             return b.val - a.val;
         });
-        stats.count = sorted;
-        for(var i = 0; i < sorted.length; i++) {
-            console.log("key: " + sorted[i].key +" val: " + sorted[i].val);
-        }
-        console.log("Finished loading averages");
+        console.log("Finished loading property amounts");
+
+        /** Sort cost per neighborhood */
+        stats.cost = sortByValue(stats.cost, function(a, b) {
+            return (1.0 * b.val.price / b.val.count) - (1.0 * a.val.price / a.val.count);
+        });
+        console.log("Finished loading average costs");
     });
 }
 
+/** Expres routes for the data */
 app.get('/api/locations', function (req, res) {
     res.send(locs);
 });
 
 app.get('/api/properties', function (req, res) {
-    res.send(stats);
+    res.send(stats.count);
 });
 
+app.get('/api/avgcost', function (req, res) {
+    res.send(stats.cost);
+});
+
+/** Init express; load data */
 app.listen(5052, function () {
     console.log('Listening on port 5052');
     getStats();

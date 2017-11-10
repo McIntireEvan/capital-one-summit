@@ -97,7 +97,7 @@ a:link, a:visited, .switch {
     background: white
 }
 
-#prop_types, #prop_types2 {
+#prop_types, #prop_types2, #neighborhood_costs {
     max-width: 60vh;
     max-height: 60vh;
 }

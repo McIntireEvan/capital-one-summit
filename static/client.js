@@ -88,7 +88,7 @@ $(document).ready(() => {
     });
 
     /** Get property type counts; display charts  */
-    $.getJSON('api/properties').done(function(data) {
+    $.getJSON('api/properties').done(data => {
         var dataset = [], dataset2 = [];
         var labels = [], labels2 = [];
 
@@ -102,12 +102,12 @@ $(document).ready(() => {
          * TODO: Make this generalize to other data sets; i.e. pick a number
          * of things to put in "other" based on count
          */
-        for(var i = 0; i < data['count'].length; i++) {
+        for(var i = 0; i < data.length; i++) {
             if(i < 2) {
-                dataset.push(data['count'][i].val);
-                labels.push(data['count'][i].key);
+                dataset.push(data[i].val);
+                labels.push(data[i].key);
             } else {
-                otherVal += data['count'][i].val;
+                otherVal += data[i].val;
             }
         }
 
@@ -116,9 +116,9 @@ $(document).ready(() => {
         labels.push("Other");
 
         /** Load the rest of the data to go into the second chart */
-        for(var i = 2; i < data['count'].length; i++) {
-            dataset2.push(data['count'][i].val);
-            labels2.push(data['count'][i].key);
+        for(var i = 2; i < data.length; i++) {
+            dataset2.push(data[i].val);
+            labels2.push(data[i].key);
         }
 
         /** Init the main chart */
@@ -126,7 +126,7 @@ $(document).ready(() => {
             type: 'horizontalBar',
             data: {
                 datasets: [{'data': dataset, backgroundColor:
-                    [colors[0], colors[2], colors[4]]
+                    [colors[0], colors[3], colors[4]]
                 }],
                 labels: labels
             },
@@ -156,14 +156,70 @@ $(document).ready(() => {
         });
 
         /**
-         * Hide the second chart
+         * Hide the second property chart
          * This is done with JS instead of CSS because otherwise, chart.js
          * does not properly initialize the element if 'display' is 'none'
          */
         $("#prop_types2").css('display', 'none');
     });
 
-    /** Event listener for text to switch the charts */
+    $.getJSON('api/avgcost').done(data => {
+        var dataset = [], labels = [], cost = 0, count = 0, total = 0;
+
+        for(var i = 0; i < data.length; i++) {
+            labels.push(data[i].key);
+            dataset.push((1.0 * data[i].val.price) / data[i].val.count);
+
+            count += data[i].val.count;
+            cost += data[i].val.price;
+        }
+
+        total = (1.0 * cost) / count;
+        $('#total').text("$" + total.toFixed(2));
+
+        var propertyTypeChart2 = new Chart("neighborhood_costs", {
+            type: 'horizontalBar',
+            data: {
+                datasets: [{'data': dataset, backgroundColor: colors[3]}],
+                labels: labels
+            },
+            options: $.extend({}, propChartOpts, {
+                "title": {
+                    display: true,
+                    text: 'Average cost per night per neighborhood',
+                    fontColor: '#ffffff'
+                }, scales: {
+                    xAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: "#ffffff"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Cost (USD)',
+                            fontColor: "#ffffff"
+                        }
+                    }], yAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: "#ffffff"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Neighborhood',
+                            fontColor: "#ffffff"
+                        }
+                    }]
+                }
+            })
+        });
+    });
+
+    /** Event listener for text to switch the property charts */
     $('#prop-switch').on('click', function(evt) {
         if(mainChartVisible) {
             $("#prop_types").css('display', 'none');

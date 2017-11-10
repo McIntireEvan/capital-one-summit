@@ -24,7 +24,7 @@
                     <h1>Jump to data</h1>
                     <ol>
                         <li><a href='#props'>Property Types</a></li>
-                        <li><a href='#'>Average cost per neighborhood</a></li>
+                        <li><a href='#costs'>Average cost per neighborhood</a></li>
                         <li><a href='#'>Ratings by neighborhood</a></li>
                         <li><a href='#'>Heatmap and price calculator</a></li>
                     </ol>
@@ -47,11 +47,34 @@
                         </p>
                         <p>
                             To look at the graph of everything listed under "other",
-                            click <span id="prop-switch" class='switch'>here</span>  to swap between the graphs.
+                            click <span id="prop-switch" class='switch'>here</span> to swap between the graphs.
                             Most of the listings here are fairly normal, but some like
                             'Lighthouse', 'Treehouse', 'Castle', etc. stand out -
                             but when looking at the actual listings, it doesn't seem like
                             any of them are literal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='costs' class='container flex centered'>
+            <div class="flex section">
+                <h1>Neighborhood Costs</h1>
+                <div class='flex'>
+                    <canvas id="neighborhood_costs" width="600px" height="600px"></canvas>
+                    <div>
+                        <p>
+                            Here's the average cost per night per neighborhood.
+                            Generally speaking, the northernmost neighborhood are
+                            the highest priced per night, but when you start moving
+                            away from there, the cost goes down.
+                        </p>
+                        <p>
+                            For the whole city, the average price is
+                            <span id='total'></span> per night. Comparing this
+                            with the average hotel room price for the city, Airbnb
+                            is far cheaper, and usually includes wifi and other
+                            various things that hotels tend to charge extra for.
                         </p>
                     </div>
                 </div>
