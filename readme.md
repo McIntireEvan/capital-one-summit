@@ -57,11 +57,14 @@ After this, you're done! Go to your webpage, and enjoy!
 
 ## Project Structure
 
-## Libraries
+## Libraries Used
 
 * Express
 * csv-parse
 * chart.js
-* google maps
+* Google Maps
 
 ## Other considerations
+
+* On the server, caching the data instead of directly storing it would improve
+memory usage, but with the scope of the project right now is not worth it.

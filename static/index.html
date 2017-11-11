@@ -26,7 +26,7 @@
                         <li><a href='#props'>Property Types</a></li>
                         <li><a href='#costs'>Average cost per neighborhood</a></li>
                         <li><a href='#ratings'>Ratings by neighborhood</a></li>
-                        <li><a href='#'>Heatmap and price calculator</a></li>
+                        <li><a href='#hm'>Heatmap and price calculator</a></li>
                     </ol>
                 </div>
             </div>
@@ -100,10 +100,25 @@
                 </div>
             </div>
         </div>
-        <div class="container flex centered">
-            <div id="map-holder" class='flex centered'>
-                <div id="map"></div>
-                <div id="info-pane"></div>
+        <div id="hm" class="container flex centered">
+            <div class="flex section centered">
+                <h1>Heatmap</h1>
+                <div id="map-holder" class='flex centered'>
+                    <div id="map"></div>
+                    <div id="info-pane">
+                        <p>
+                            This is a heatmap showing frequency of Airbnb listings.
+                            Feel free to pan around, zoom in and out, etc.!
+                        </p>
+
+                        <p>
+                            When you click on a location or enter a latitude and longitude below,
+                            we'll calculate how much you should charge per night, based on the
+                            prices around there. We'll also give you a general idea of how much
+                            you could make a week using Airbnb.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
