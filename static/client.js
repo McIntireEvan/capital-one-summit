@@ -219,6 +219,58 @@ $(document).ready(() => {
         });
     });
 
+    $.getJSON('api/ratings').done(function(data) {
+        var dataset = [], labels = [], cost = 0, count = 0;
+
+        for(var i = 0; i < data.length; i++) {
+            labels.push(data[i].key);
+            dataset.push((1.0 * data[i].val.score) / data[i].val.count);
+
+            count += data[i].val.count;
+            cost += data[i].val.price;
+        }
+
+        var propertyTypeChart2 = new Chart("neighborhood_ratings", {
+            type: 'horizontalBar',
+            data: {
+                datasets: [{'data': dataset, backgroundColor: colors[5]}],
+                labels: labels
+            },
+            options: $.extend({}, propChartOpts, {
+                "title": {
+                    display: true,
+                    text: 'Average rating per neighborhood',
+                    fontColor: '#ffffff'
+                }, scales: {
+                    xAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                    ticks: {
+                        fontColor: "#ffffff"
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Rating',
+                        fontColor: "#ffffff"
+                    }
+                }], yAxes: [{
+                    gridLines:{
+                        display: false
+                    },
+                    ticks: {
+                        fontColor: "#ffffff"
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Neighborhood',
+                        fontColor: "#ffffff"
+                    }
+                }]
+            }})
+        });
+    });
+
     /** Event listener for text to switch the property charts */
     $('#prop-switch').on('click', function(evt) {
         if(mainChartVisible) {

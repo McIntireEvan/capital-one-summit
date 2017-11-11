@@ -1,6 +1,7 @@
 /* General Styles */
 html {
     font-family: 'Open Sans', sans-serif;
+    line-height: 1.5;
 }
 
 html, body {
@@ -31,7 +32,7 @@ a:link, a:visited, .switch {
     align-items: flex-start;
     justify-content: flex-start;
     width: 75%;
-    font-size: 1.5em;
+    font-size: 2em;
 }
 
 /* Utility classes */
@@ -50,7 +51,7 @@ a:link, a:visited, .switch {
 }
 
 .huge {
-    font-size: 6em;
+    font-size: 7em;
 }
 
 .airbnb-red {
@@ -61,12 +62,17 @@ a:link, a:visited, .switch {
     display: flex;
     width: 75%;
     justify-content: center;
-    font-size: 1.5em;
+    font-size: 1.8em;
 }
 
 .two div {
     padding: 1.5vw;
-    line-height: 1.5;
+}
+
+.vcenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* Element Sizing */
@@ -97,7 +103,7 @@ a:link, a:visited, .switch {
     background: white
 }
 
-#prop_types, #prop_types2, #neighborhood_costs {
+#prop_types, #prop_types2, #neighborhood_costs, #neighborhood_ratings {
     max-width: 60vh;
     max-height: 60vh;
 }
@@ -108,4 +114,20 @@ a:link, a:visited, .switch {
 
 ::selection {
     background: #ffffff;
+}
+
+@media only screen and (max-device-width: 599px) {
+    .flex {
+        flex-direction: column !important;
+        width: 100%;
+    }
+
+    .two div {
+        padding: 0px;
+    }
+
+    #landing-two, .two {
+        flex-direction: column;
+        width: 100%;
+    }
 }

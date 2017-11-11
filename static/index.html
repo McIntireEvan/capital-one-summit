@@ -25,7 +25,7 @@
                     <ol>
                         <li><a href='#props'>Property Types</a></li>
                         <li><a href='#costs'>Average cost per neighborhood</a></li>
-                        <li><a href='#'>Ratings by neighborhood</a></li>
+                        <li><a href='#ratings'>Ratings by neighborhood</a></li>
                         <li><a href='#'>Heatmap and price calculator</a></li>
                     </ol>
                 </div>
@@ -37,7 +37,7 @@
                 <div class='flex'>
                     <canvas id="prop_types" width="600px" height="600px"></canvas>
                     <canvas id="prop_types2" width="600px" height="600px"></canvas>
-                    <div>
+                    <div class='vcenter'>
                         <p>
                             First, here's a look at the types of properties listed on
                             Airbnb in San Francisco. As is clear on the graph to the left,
@@ -61,8 +61,7 @@
             <div class="flex section">
                 <h1>Neighborhood Costs</h1>
                 <div class='flex'>
-                    <canvas id="neighborhood_costs" width="600px" height="600px"></canvas>
-                    <div>
+                    <div class='vcenter'>
                         <p>
                             Here's the average cost per night per neighborhood.
                             Generally speaking, the northernmost neighborhood are
@@ -75,6 +74,27 @@
                             with the average hotel room price for the city, Airbnb
                             is far cheaper, and usually includes wifi and other
                             various things that hotels tend to charge extra for.
+                        </p>
+                    </div>
+                    <canvas id="neighborhood_costs" width="600px" height="600px"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id='ratings' class='container flex centered'>
+            <div class="flex section">
+                <h1>Neighborhood ratings</h1>
+                <div class='flex'>
+                    <canvas id="neighborhood_ratings" width="600px" height="600px"></canvas>
+                    <div class='vcenter'>
+                        <p>
+                            Across the board, general ratings are really good.
+                        </p>
+                        <p>
+                            A lot of analysis could be done on the ratings to
+                            find factors that suggest a higher rating. Various
+                            amenities, proximity to landmarks, etc. might tell
+                            some of the story, and sentiment analysis of the
+                            ratings could give the rest of it.
                         </p>
                     </div>
                 </div>

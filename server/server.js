@@ -39,6 +39,9 @@ function sortByValue(obj, cmp) {
 
 function getStats() {
     var count = {};
+    var cost = {};
+    var ratings = {};
+
     fs.createReadStream('data/listings.csv').pipe(csv())
     .on('data', function(data) {
         /** Count property types */
@@ -51,20 +54,35 @@ function getStats() {
         var price = parseFloat((data.price).replace('$', ''));
 
         /** Average cost per neighborhood */
-        if(stats['cost'][data.neighbourhood_cleansed]) {
-            stats['cost'][data.neighbourhood_cleansed].count++;
-            stats['cost'][data.neighbourhood_cleansed].price += price;
+        if(cost[data.neighbourhood_cleansed]) {
+            cost[data.neighbourhood_cleansed].count++;
+            cost[data.neighbourhood_cleansed].price += price;
         } else {
-            stats['cost'][data.neighbourhood_cleansed] = {
+            cost[data.neighbourhood_cleansed] = {
                 'count': 1,
                 'price': price
             }
         }
 
-        /** Ratings per neighborhood */
+        var r_count = parseInt(data.number_of_reviews);
+        var score = parseFloat(data.review_scores_rating);
+
+        if(score == score && r_count != 0) {
+            /** Ratings per neighborhood */
+            if(ratings[data.neighbourhood_cleansed]) {
+                ratings[data.neighbourhood_cleansed].count += r_count;
+                ratings[data.neighbourhood_cleansed].score += (r_count * score);
+            } else {
+                ratings[data.neighbourhood_cleansed] = {
+                    'count': r_count,
+                    'score': (r_count * score)
+                }
+            }
+        }
         //number_of_reviews
         //review_scores_rating
     }).on('end', () => {
+        console.log("Loaded data; sorting");
         /** Sort property counts */
         stats.count = sortByValue(count, function(a, b) {
             return b.val - a.val;
@@ -72,10 +90,15 @@ function getStats() {
         console.log("Finished loading property amounts");
 
         /** Sort cost per neighborhood */
-        stats.cost = sortByValue(stats.cost, function(a, b) {
+        stats.cost = sortByValue(cost, function(a, b) {
             return (1.0 * b.val.price / b.val.count) - (1.0 * a.val.price / a.val.count);
         });
-        console.log("Finished loading average costs");
+
+        /** Sort ratings per neighborhood */
+        stats.ratings = sortByValue(ratings, function(a, b) {
+            return (1.0 * b.val.score / b.val.count) - (1.0 * a.val.score / a.val.count);
+        });
+        console.log("Finished loading average ratings");
     });
 }
 
@@ -90,6 +113,10 @@ app.get('/api/properties', function (req, res) {
 
 app.get('/api/avgcost', function (req, res) {
     res.send(stats.cost);
+});
+
+app.get('/api/ratings', function (req, res) {
+    res.send(stats.ratings);
 });
 
 /** Init express; load data */
