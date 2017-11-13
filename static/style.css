@@ -12,6 +12,12 @@ html, body {
     background: #191919;
 }
 
+body {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 h1 {
     font-family: 'Open Sans', sans-serif;
 }
@@ -70,7 +76,7 @@ a:link, a:visited, .switch {
 }
 
 .two div {
-    padding: 1.5vw;
+    padding: 1.5em;
 }
 
 .vcenter {
@@ -87,11 +93,11 @@ a:link, a:visited, .switch {
 }
 
 #landing h1 {
-    margin-top: 10vh;
+    margin-top: 1em;
 }
 
 #map {
-    height: 100%;
+    height: 25em;
     width: 75%;
 }
 
