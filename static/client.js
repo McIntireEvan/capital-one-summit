@@ -9,45 +9,12 @@ var colors = ['#F28181','#E99ACA','#A4C4F8','#4FE7EB','#81FBAF','#EDFE74'];
 /** Toggles #prop_types chart */
 var mainChartVisible = true;
 
-/** Generic options for property type charts */
-var propChartOpts = {
-    legend: {
-        display: false
-    }, scales: {
-        xAxes: [{
-            gridLines:{
-                display: false
-            },
-            ticks: {
-                fontColor: "#ffffff"
-            },
-            scaleLabel: {
-                display: true,
-                labelString: '# of properties',
-                fontColor: "#ffffff"
-            }
-        }], yAxes: [{
-            gridLines:{
-                display: false
-            },
-            ticks: {
-                fontColor: "#ffffff"
-            },
-            scaleLabel: {
-                display: true,
-                labelString: 'Property Type',
-                fontColor: "#ffffff"
-            }
-        }]
-    }
-}
-
 /** Initializes the Google Maps API map */
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.775, lng: -122.434},
         zoom: 13,
-        gestureHandling: 'greedy'
+        gestureHandling: 'cooperative'
     });
 
     var marker = new google.maps.Marker({
@@ -104,6 +71,12 @@ function jsonToLatLng(arr) {
 
 /** Once the page is loaded, do all of our JS */
 $(document).ready(() => {
+    /** chart.js defaults */
+    Chart.defaults.global.title.display = true;
+    Chart.defaults.global.title.fontSize = 30;
+    Chart.defaults.global.title.fontColor = '#ffffff';
+    Chart.defaults.global.legend.display = false;
+
     /** Get location data for heatmap; load into google maps */
     $.getJSON('api/locations').done(function(data) {
         heatmap = new google.maps.visualization.HeatmapLayer({
@@ -155,13 +128,45 @@ $(document).ready(() => {
                 }],
                 labels: labels
             },
-            options: $.extend({}, propChartOpts, {
-                "title": {
-                    display: true,
-                    text: 'Top property types',
-                    fontColor: '#ffffff'
+            options: {
+                title: {
+                    text: 'Top property types'
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: "#ffffff",
+                            fontSize: 20,
+                            maxRotation: 0,
+                            minRotation: 0,
+                            stepSize: 1000
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: '# of properties',
+                            fontColor: "#ffffff",
+                            fontSize: 20
+                        }
+                    }], yAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: "#ffffff",
+                            fontSize: 16
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Property Type',
+                            fontColor: "#ffffff",
+                            fontSize: 20
+                        }
+                    }]
                 }
-            })
+            }
         });
 
         /** Init the second chart */
@@ -171,13 +176,45 @@ $(document).ready(() => {
                 datasets: [{'data': dataset2, backgroundColor: colors[4]}],
                 labels: labels2
             },
-            options: $.extend({}, propChartOpts, {
-                "title": {
-                    display: true,
-                    text: 'Other property types',
-                    fontColor: '#ffffff'
+            options: {
+                title: {
+                    text: 'Other property types'
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: "#ffffff",
+                            fontSize: 20,
+                            maxRotation: 0,
+                            minRotation: 0,
+                            stepSize: 100
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: '# of properties',
+                            fontColor: "#ffffff",
+                            fontSize: 20
+                        }
+                    }], yAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: "#ffffff",
+                            fontSize: 16
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Property Type',
+                            fontColor: "#ffffff",
+                            fontSize: 20
+                        }
+                    }]
                 }
-            })
+            }
         });
 
         /**
@@ -202,45 +239,52 @@ $(document).ready(() => {
         total = (1.0 * cost) / count;
         $('#total').text("$" + total.toFixed(2));
 
-        var propertyTypeChart2 = new Chart("neighborhood_costs", {
+        var neighborhood_costs = new Chart("neighborhood_costs", {
             type: 'horizontalBar',
             data: {
                 datasets: [{'data': dataset, backgroundColor: colors[3]}],
                 labels: labels
             },
-            options: $.extend({}, propChartOpts, {
-                "title": {
-                    display: true,
-                    text: 'Average cost per night per neighborhood',
-                    fontColor: '#ffffff'
-                }, scales: {
+            options: {
+                title: {
+                    text: 'Average cost per night per neighborhood'
+                },
+                scales: {
                     xAxes: [{
                         gridLines:{
                             display: false
                         },
                         ticks: {
-                            fontColor: "#ffffff"
+                            fontColor: "#ffffff",
+                            fontSize: 20,
+                            maxRotation: 0,
+                            minRotation: 0,
+                            stepSize: 100
                         },
                         scaleLabel: {
                             display: true,
                             labelString: 'Cost (USD)',
-                            fontColor: "#ffffff"
+                            fontColor: "#ffffff",
+                            fontSize: 20
                         }
                     }], yAxes: [{
                         gridLines:{
                             display: false
                         },
                         ticks: {
-                            fontColor: "#ffffff"
+                            fontColor: "#ffffff",
+                            fontSize: 16,
+                            padding: 30
                         },
                         scaleLabel: {
                             display: true,
                             labelString: 'Neighborhood',
-                            fontColor: "#ffffff"
+                            fontColor: "#ffffff",
+                            fontSize: 20
                         }
                     }]
                 }
-            })
+            }
         });
     });
 
@@ -261,38 +305,45 @@ $(document).ready(() => {
                 datasets: [{'data': dataset, backgroundColor: colors[5]}],
                 labels: labels
             },
-            options: $.extend({}, propChartOpts, {
-                "title": {
-                    display: true,
-                    text: 'Average rating per neighborhood',
-                    fontColor: '#ffffff'
-                }, scales: {
+            options: {
+                title: {
+                    text: 'Average rating per neighborhood'
+                },
+                scales: {
                     xAxes: [{
                         gridLines:{
                             display: false
                         },
-                    ticks: {
-                        fontColor: "#ffffff"
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Rating',
-                        fontColor: "#ffffff"
-                    }
-                }], yAxes: [{
-                    gridLines:{
-                        display: false
-                    },
-                    ticks: {
-                        fontColor: "#ffffff"
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Neighborhood',
-                        fontColor: "#ffffff"
-                    }
-                }]
-            }})
+                        ticks: {
+                            fontColor: "#ffffff",
+                            fontSize: 20,
+                            maxRotation: 0,
+                            minRotation: 0
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Rating',
+                            fontColor: "#ffffff",
+                            fontSize: 20
+                        }, categoryPercentage: 1.0
+                    }], yAxes: [{
+                        gridLines:{
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: "#ffffff",
+                            fontSize: 16,
+                            padding: 30
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Neighborhood',
+                            fontColor: "#ffffff",
+                            fontSize: 20
+                        }
+                    }]
+                }
+            }
         });
     });
 

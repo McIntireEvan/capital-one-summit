@@ -35,6 +35,10 @@ a:link, a:visited, .switch {
     font-size: 2em;
 }
 
+#info-pane div {
+    margin: .5em;
+}
+
 /* Utility classes */
 .container {
     width: 100%;
@@ -117,8 +121,8 @@ a:link, a:visited, .switch {
 }
 
 #prop_types, #prop_types2, #neighborhood_costs, #neighborhood_ratings {
-    max-width: 60vh;
-    max-height: 60vh;
+    max-width: 20em;
+    max-height: 40em;
 }
 
 #landing-two div {
