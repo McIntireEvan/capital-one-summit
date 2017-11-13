@@ -103,12 +103,22 @@ function getStats() {
     });
 }
 
+/**
+ * Gets the suggested price based on average of nearby listings
+ * @param {Number} lat - Latitude
+ * @param {Number} lng - Longitude
+ */
 function getSuggestedPrice(lat, lng) {
+    /** We're doing async operations here; return a promise */
     return new Promise((resolve, reject) => {
         var count = 0, price = 0;
 
         fs.createReadStream('data/listings.csv').pipe(csv())
         .on('data', function(data) {
+            /**
+             * haversine gives the distance between points on a sphere (the earth)
+             * We find all listings with a .3 mile radius using this
+             */
             if(haversine(
                 {'latitude': lat, 'longitude': lng},
                 {'latitude': data.latitude, 'longitude': data.longitude},

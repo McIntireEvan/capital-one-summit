@@ -2,8 +2,13 @@
 
 This is my application to the Capital One Software Engineering Summit.
 
+It contains several charts with different statistics about Airbnb listings in
+San Francisco. It also has a heatmap that can be used to estimate a price for a
+new listing in the area. I also included some thoughts about the data and in some
+cases, further analysis that could be done.
+
 ## Setup
-First, clone from `<URL>`.
+First, clone from `https://github.com/McIntireEvan/capital-one-summit`.
 
 Next, grab the data from [here](https://s3.amazonaws.com/mindsumo/public/capital-one/airbnb-public-sep-2017-v2.zip)
 
@@ -57,14 +62,26 @@ After this, you're done! Go to your webpage, and enjoy!
 
 ## Project Structure
 
+All the static files to be served by the webserver are in `static/`
+
+The server and npm package info are in `server/`
+
 ## Libraries Used
 
 * Express
 * csv-parse
 * chart.js
 * Google Maps
+* haversine
 
-## Other considerations
+## Other considerations; Possible improvements
 
 * On the server, caching the data instead of directly storing it would improve
 memory usage, but with the scope of the project right now is not worth it.
+
+* When getting data to suggest a price, if there fewer data points than some
+threshold, it should expand the search radius until we have enough
+
+* The CSS is a mess and could be cleaned up a lot.
+
+* The chart options and related code could be abstracted to follow DRY

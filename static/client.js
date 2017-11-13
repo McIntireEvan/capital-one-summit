@@ -11,45 +11,53 @@ var mainChartVisible = true;
 
 /** Initializes the Google Maps API map */
 function initMap() {
+    /** Map */
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.775, lng: -122.434},
         zoom: 13,
         gestureHandling: 'cooperative'
     });
 
+    /** Movable marker */
     var marker = new google.maps.Marker({
         position: {lat: 37.775, lng: -122.434},
         map: map,
         draggable: true
     });
 
+    /** Gets suggested price, given location */
     function requestData(lat, lng) {
         $.getJSON('/api/price', { lat: lat, lng: lng }).done(data => {
             var p = Math.round(data.price);
+
+            /** Update text */
             $('#price-suggest').text('$' + p);
             $('#count-suggest').text(data.count);
             $('#price-suggest-week').text('$' + (p * 7));
         });
     }
 
+    /** Request data and update inputs when dragging is finished */
     marker.addListener('dragend', evt => {
         requestData(evt.latLng.lat(), evt.latLng.lng())
         $('#lat-in').val(evt.latLng.lat().toFixed(7));
         $('#lng-in').val(evt.latLng.lng().toFixed(7));
     });
 
+    /** Initialize data */
     requestData(37.775, -122.434);
     $('#lat-in').val(37.775);
     $('#lng-in').val(-122.434);
 
+    /** Update marker on text update */
     function onEdit() {
-        console.log($('#lat-in').val());
         marker.setPosition(new google.maps.LatLng({
             lat: parseFloat($('#lat-in').val()),
             lng: parseFloat($('#lng-in').val())
         }));
     }
 
+    /** Attach events */
     $('#lat-in').on('input', onEdit);
     $('#lng-in').on('input', onEdit);
 }
@@ -225,9 +233,11 @@ $(document).ready(() => {
         $("#prop_types2").css('display', 'none');
     });
 
+    /** Get the data for the average price per night per neighborhood */
     $.getJSON('api/avgcost').done(data => {
         var dataset = [], labels = [], cost = 0, count = 0, total = 0;
 
+        /** Extract data */
         for(var i = 0; i < data.length; i++) {
             labels.push(data[i].key);
             dataset.push((1.0 * data[i].val.price) / data[i].val.count);
@@ -236,9 +246,11 @@ $(document).ready(() => {
             cost += data[i].val.price;
         }
 
+        /** Compute overall average */
         total = (1.0 * cost) / count;
         $('#total').text("$" + total.toFixed(2));
 
+        /** Init chart */
         var neighborhood_costs = new Chart("neighborhood_costs", {
             type: 'horizontalBar',
             data: {
@@ -288,9 +300,11 @@ $(document).ready(() => {
         });
     });
 
+    /** Get data for average rating per neighborhood */
     $.getJSON('api/ratings').done(function(data) {
         var dataset = [], labels = [], cost = 0, count = 0;
 
+        /** Extract data */
         for(var i = 0; i < data.length; i++) {
             labels.push(data[i].key);
             dataset.push((1.0 * data[i].val.score) / data[i].val.count);
@@ -299,6 +313,7 @@ $(document).ready(() => {
             cost += data[i].val.price;
         }
 
+        /** Init chart */
         var propertyTypeChart2 = new Chart("neighborhood_ratings", {
             type: 'horizontalBar',
             data: {
