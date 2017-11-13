@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const csv = require('csv-parser');
 const fs = require('fs');
+const haversine = require('haversine');
 
 var locs = [];
 var stats = {
@@ -102,6 +103,28 @@ function getStats() {
     });
 }
 
+function getSuggestedPrice(lat, lng) {
+    return new Promise((resolve, reject) => {
+        var count = 0, price = 0;
+
+        fs.createReadStream('data/listings.csv').pipe(csv())
+        .on('data', function(data) {
+            if(haversine(
+                {'latitude': lat, 'longitude': lng},
+                {'latitude': data.latitude, 'longitude': data.longitude},
+                {unit: 'mile'})
+            <= .3) {
+                var p = parseFloat((data.price).replace('$', ''));
+                count += 1;
+                price += p;
+            }
+        }).on('end', () => {
+            var avg = 1.0 * price / count;
+            resolve({price: avg, count: count});
+        });
+    });
+}
+
 /** Expres routes for the data */
 app.get('/api/locations', function (req, res) {
     res.send(locs);
@@ -117,6 +140,15 @@ app.get('/api/avgcost', function (req, res) {
 
 app.get('/api/ratings', function (req, res) {
     res.send(stats.ratings);
+});
+
+app.get('/api/price', function (req, res) {
+    var lat = req.query.lat;
+    var lng = req.query.lng;
+
+    getSuggestedPrice(lat, lng).then(data => {
+        res.send(data);
+    });
 });
 
 /** Init express; load data */

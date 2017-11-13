@@ -93,20 +93,22 @@ a:link, a:visited, .switch {
 
 #info-pane {
     width: 25%;
-    background: white;
-    color: #191919;
     height: 100%;
-    font-size: .5em;
+    font-size: .7em;
 }
 
-#info-pane p {
-    padding-left: .5em;
+#info-pane p, #info-pane div {
+    margin-left: .5em;
+}
+
+#suggest span {
+    color: #81FBAF;
+    font-size: 2.75em;
 }
 
 #map-holder {
     width: 85%;
     height: 80%;
-    background: white
 }
 
 #hm .section {
@@ -125,6 +127,21 @@ a:link, a:visited, .switch {
 
 ::selection {
     background: #ffffff;
+}
+
+input[type=text] {
+    background: #191919;
+    color: white;
+    border: none;
+    font-size: 1em;
+    border-bottom: 2px solid white;
+    padding: 3px;
+    font-family: 'Open Sans';
+    width: 8em;
+}
+
+#suggest {
+    border-top: 1px solid white;
 }
 
 @media only screen and (max-device-width: 599px) {

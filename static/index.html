@@ -112,10 +112,21 @@
                         </p>
 
                         <p>
-                            When you click on a location or enter a latitude and longitude below,
-                            we'll calculate how much you should charge per night, based on the
-                            prices around there. We'll also give you a general idea of how much
-                            you could make a week using Airbnb.
+                            Drag around the marker or enter your latitude and longitude
+                            to get a price recommendation based on nearby listings.
+                        </p>
+                        <div>
+                            <label>Latitude: <input id='lat-in' type='text'/></label><br/>
+                            <label>Longitude: <input id='lng-in' type='text'/></label>
+                        </div>
+                        <p id='suggest'>
+                            Based on <br/>
+                            <span id='count-suggest'></span> nearest listings,<br/>
+                            You should charge <br/>
+                            <span id='price-suggest'></span> a night<br/>
+                            Potentially earning <br/>
+                            <span id='price-suggest-week'></span>
+                            per week.
                         </p>
                     </div>
                 </div>

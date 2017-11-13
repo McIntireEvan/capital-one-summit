@@ -46,20 +46,45 @@ var propChartOpts = {
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.775, lng: -122.434},
-        zoom: 12,
-        gestureHandling: 'cooperative'
+        zoom: 13,
+        gestureHandling: 'greedy'
     });
 
-    map.addListener('click', evt => {
-        if(marker) {
-            marker.setMap(null);
-        }
-        marker = new google.maps.Marker({
-            position: evt.latLng,
-            map: map
+    var marker = new google.maps.Marker({
+        position: {lat: 37.775, lng: -122.434},
+        map: map,
+        draggable: true
+    });
+
+    function requestData(lat, lng) {
+        $.getJSON('/api/price', { lat: lat, lng: lng }).done(data => {
+            var p = Math.round(data.price);
+            $('#price-suggest').text('$' + p);
+            $('#count-suggest').text(data.count);
+            $('#price-suggest-week').text('$' + (p * 7));
         });
-        //TODO: Call to server to calculate price, etc.
-    })
+    }
+
+    marker.addListener('dragend', evt => {
+        requestData(evt.latLng.lat(), evt.latLng.lng())
+        $('#lat-in').val(evt.latLng.lat().toFixed(7));
+        $('#lng-in').val(evt.latLng.lng().toFixed(7));
+    });
+
+    requestData(37.775, -122.434);
+    $('#lat-in').val(37.775);
+    $('#lng-in').val(-122.434);
+
+    function onEdit() {
+        console.log($('#lat-in').val());
+        marker.setPosition(new google.maps.LatLng({
+            lat: parseFloat($('#lat-in').val()),
+            lng: parseFloat($('#lng-in').val())
+        }));
+    }
+
+    $('#lat-in').on('input', onEdit);
+    $('#lng-in').on('input', onEdit);
 }
 
 /**
